@@ -13,17 +13,13 @@ def get_population_to_profit_dataset():
     return OrderedDict((float(column) for column in row.split(",")) for row in data.splitlines())
 
 def graph_population_to_profit(data, theta):
+    intercept, slope = theta
+
     plt.scatter(data.keys(), data.values(), marker='x', c='red', alpha=0.5)
     plt.ylabel("Profit in $10,000s")
     plt.xlabel("Population of City in 10,000s")
 
-    intercept, slope = theta
-
-    ablineValues = []
-    for i in data.keys():
-        ablineValues.append(slope*i+intercept)
-
-    plt.plot(data.keys(), ablineValues, "--")
+    plt.plot(data.keys(), [slope * i + intercept for i in data.keys()], "--")
 
     plt.savefig("ex1/population-to-profit.png", dpi=300)
     plt.show()
@@ -68,10 +64,11 @@ def main():
 
         print "Cost function before training:", session.run(cost_function, feed_dict=feed_dict)
 
-        for _ in xrange(ITERATIONS):
+        for i in xrange(ITERATIONS):
             final_theta = session.run(train, feed_dict=feed_dict)
-        
-        print "Cost function after training:", session.run(cost_function, feed_dict=feed_dict)
+
+            if i % 100 == 0:
+                print (len("Cost function before training:") - 2) * ' ' + '->', session.run(cost_function, feed_dict=feed_dict)
 
     # Graph data
     graph_population_to_profit(population_to_profit, final_theta)
