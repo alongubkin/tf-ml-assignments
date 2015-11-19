@@ -48,7 +48,7 @@ def main():
     # Linear model (hypnosis function)
     hypnosis = tf.reduce_sum(tf.mul(tf.transpose(theta), input_data), 1)
 
-    # ost function we want to minimize
+    # Cost function we want to minimize
     cost_function = tf.div(tf.reduce_sum(tf.pow(tf.sub(hypnosis, y), 2)), 2 * examples_count)
 
     # Gradient descent
