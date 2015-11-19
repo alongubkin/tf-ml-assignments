@@ -13,12 +13,11 @@ def get_population_to_profit_dataset():
     return OrderedDict((float(column) for column in row.split(",")) for row in data.splitlines())
 
 def graph_population_to_profit(data, theta):
-    intercept, slope = theta
-
     plt.scatter(data.keys(), data.values(), marker='x', c='red', alpha=0.5)
     plt.ylabel("Profit in $10,000s")
     plt.xlabel("Population of City in 10,000s")
 
+    intercept, slope = theta
     plt.plot(data.keys(), [slope * i + intercept for i in data.keys()], "--")
 
     plt.savefig("ex1/population-to-profit.png", dpi=300)
@@ -47,7 +46,8 @@ def main():
     # Cost function we want to minimize
     cost_function = tf.div(tf.reduce_sum(tf.pow(tf.sub(hypnosis, y), 2)), 2 * examples_count)
 
-    # Gradient descent
+    # Gradient descent 
+    # Note: In real code, use tf.GradientDescentOptimizer
     train = theta.assign_sub(
         tf.reshape(tf.mul(LEARNING_RATE / examples_count, 
             tf.reduce_sum(tf.mul(tf.transpose(tf.reshape(tf.tile(tf.sub(hypnosis, y), [2]), [2, examples_count])), 
