@@ -69,7 +69,7 @@ def main():
 
     # Find global minimum 
     # Note: Original exercise says to use fminunc, but TensorFlow doesn't support it yet.
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate=tf.constant(LEARNING_RATE, tf.float32))
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=LEARNING_RATE)
     train = optimizer.minimize(cost_function)
 
     # Predict student admittion probability
